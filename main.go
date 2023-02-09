@@ -1,9 +1,21 @@
 package main
 
 import (
+	"database/sql"
 	"net/http"
 	"text/template"
+
+	_ "github.com/lib/pq"
 )
+
+func dbconnection() *sql.DB {
+	connectionStr := "user=postgres dbname=gostore password=241917 host=localhost sslmode=disable"
+	db, err := sql.Open("postgres", connectionStr)
+	if err != nil {
+		panic(err.Error())
+	}
+	return db
+}
 
 type Product struct {
 	Name, Description string
@@ -14,6 +26,8 @@ type Product struct {
 var templates = template.Must(template.ParseGlob("templates/*html"))
 
 func main() {
+	db := dbconnection()
+	defer db.Close()
 	http.HandleFunc("/", index)
 	http.ListenAndServe(":8000", nil)
 }
