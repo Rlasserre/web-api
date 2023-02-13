@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"html/template"
+	"log"
 	"net/http"
+	"strconv"
 	"web-api/models"
 )
 
@@ -18,4 +20,26 @@ func New(w http.ResponseWriter, r *http.Request) {
 
 	templates.ExecuteTemplate(w, "New", nil)
 
+}
+
+func Insert(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "Post" {
+		name := r.FormValue("nome")
+		description := r.FormValue("descricao")
+		price := r.FormValue("preco")
+		quantity := r.FormValue("quantidade")
+
+		priceFloatConverted, err := strconv.ParseFloat(price, 64)
+		if err != nil {
+			log.Println("Erro, conversão do preço.")
+		}
+
+		quantityIntConverted, err := strconv.Atoi(quantity)
+		if err != nil {
+			log.Println("Erro, conversão da quantidade.")
+		}
+
+		models.CreateNewProduct(name, description, priceFloatConverted, quantityIntConverted)
+	}
+	http.Redirect(w, r, "/", 301)
 }

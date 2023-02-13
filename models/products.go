@@ -10,6 +10,18 @@ type Product struct {
 	Price             float64
 }
 
+func CreateNewProduct(name, description string, price float64, quantity int) {
+	db := db.Dbconnection()
+
+	insertIntoDb, err := db.Prepare("insert into products (name, description, price, quantity) values($1, $2, $3, $4)")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	insertIntoDb.Exec(name, description, price, quantity)
+	defer db.Close()
+}
+
 func ScanProducts() []Product {
 	db := db.Dbconnection()
 	selectAllProducts, err := db.Query("Select * from products")
