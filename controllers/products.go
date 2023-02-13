@@ -24,10 +24,10 @@ func New(w http.ResponseWriter, r *http.Request) {
 
 func Insert(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "Post" {
-		name := r.FormValue("nome")
-		description := r.FormValue("descricao")
-		price := r.FormValue("preco")
-		quantity := r.FormValue("quantidade")
+		name := r.FormValue("name")
+		description := r.FormValue("description")
+		price := r.FormValue("price")
+		quantity := r.FormValue("quantity")
 
 		priceFloatConverted, err := strconv.ParseFloat(price, 64)
 		if err != nil {
