@@ -10,18 +10,6 @@ type Product struct {
 	Price             float64
 }
 
-func CreateNewProduct(name, description string, price float64, quantity int) {
-	db := db.Dbconnection()
-
-	insertIntoDb, err := db.Prepare("insert into products(name, description, price, quantity) values($1, $2, $3, $4)")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	insertIntoDb.Exec(name, description, price, quantity)
-	defer db.Close()
-}
-
 func ScanProducts() []Product {
 	db := db.Dbconnection()
 	selectAllProducts, err := db.Query("Select * from products")
@@ -38,16 +26,41 @@ func ScanProducts() []Product {
 		if err != nil {
 			panic(err.Error())
 		}
+		p.Id = id
 		p.Name = name
 		p.Description = description
 		p.Price = price
 		p.Quantity = quantity
+
 		products = append(products, p)
 	}
 	defer db.Close()
+
 	return products
 }
 
-func Dbconnection() {
-	panic("unimplemented")
+func CreateNewProduct(name, description string, price float64, quantity int) {
+	db := db.Dbconnection()
+
+	insertIntoDb, err := db.Prepare("insert into products(name, description, price, quantity) values($1, $2, $3, $4)")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	insertIntoDb.Exec(name, description, price, quantity)
+
+	defer db.Close()
+}
+
+func DeleteProduct(id string) {
+	db := db.Dbconnection()
+	productDelete, err := db.Prepare("delete from product where where id=$1")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	productDelete.Exec(id)
+
+	defer db.Close()
+
 }
