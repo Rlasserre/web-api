@@ -54,7 +54,7 @@ func CreateNewProduct(name, description string, price float64, quantity int) {
 
 func DeleteProduct(id string) {
 	db := db.Dbconnection()
-	productDelete, err := db.Prepare("delete from product where where id=$1")
+	productDelete, err := db.Prepare("delete from products where id=$1")
 	if err != nil {
 		panic(err.Error())
 	}
