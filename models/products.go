@@ -42,7 +42,7 @@ func ScanProducts() []Product {
 func CreateNewProduct(name, description string, price float64, quantity int) {
 	db := db.Dbconnection()
 
-	insertIntoDb, err := db.Prepare("insert into products(name, description, price, quantity) values($1, $2, $3, $4)")
+	insertIntoDb, err := db.Prepare("insert into products (name, description, price, quantity) values($1, $2, $3, $4)")
 	if err != nil {
 		panic(err.Error())
 	}

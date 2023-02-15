@@ -23,7 +23,7 @@ func New(w http.ResponseWriter, r *http.Request) {
 }
 
 func Insert(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "Post" {
+	if r.Method == "POST" {
 		name := r.FormValue("name")
 		description := r.FormValue("description")
 		price := r.FormValue("price")
@@ -41,7 +41,7 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 
 		models.CreateNewProduct(name, description, priceFloatConverted, quantityIntConverted)
 	}
-	http.Redirect(w, r, "/", 200)
+	http.Redirect(w, r, "/", 301)
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
