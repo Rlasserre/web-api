@@ -68,7 +68,7 @@ func DeleteProduct(id string) {
 func EditProduct(id string) Product {
 	db := db.Dbconnection()
 
-	productFromDb, err := db.Query("select * products where id=$1", id)
+	productFromDb, err := db.Query("select * from products where id=$1", id)
 	if err != nil {
 		panic(err.Error())
 	}
