@@ -12,7 +12,7 @@ type Product struct {
 
 func ScanProducts() []Product {
 	db := db.Dbconnection()
-	selectAllProducts, err := db.Query("Select * from products")
+	selectAllProducts, err := db.Query("Select * from products order by id asc")
 	if err != nil {
 		panic(err.Error())
 	}
