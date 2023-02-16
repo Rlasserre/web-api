@@ -55,3 +55,32 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 	product := models.EditProduct(productId)
 	templates.ExecuteTemplate(w, "Edit", product)
 }
+
+func Update(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		id := r.FormValue("id")
+		name := r.FormValue("name")
+		description := r.FormValue("description")
+		price := r.FormValue("price")
+		quantity := r.FormValue("quantity")
+
+		idIntConverted, err := strconv.Atoi(id)
+		if err != nil {
+			log.Println("Erro, não foi possivel converter o id")
+		}
+
+		priceFloatConverted, err := strconv.ParseFloat(price, 64)
+		if err != nil {
+			log.Println("Erro, não foi possivel converter o preço.")
+		}
+
+		quantityIntConverted, err := strconv.Atoi(quantity)
+		if err != nil {
+			log.Println("Erro, não foi possivel converter a quantidade.")
+		}
+
+		models.UpdateProduct(name, description, priceFloatConverted, quantityIntConverted, idIntConverted)
+
+	}
+	http.Redirect(w, r, "/", 301)
+}
